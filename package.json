@@ -1,5 +1,5 @@
 {
-  "name": "ai-receptionist",
+  "name": "restaurant-receiptioninst",
   "version": "1.0.0",
   "main": "server.js",
   "dependencies": {
