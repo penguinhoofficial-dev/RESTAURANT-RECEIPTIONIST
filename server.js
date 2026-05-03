@@ -6,15 +6,28 @@ app.use(express.json());
 let bookings = [];
 
 // Book
-app.post("/book", (req, res) => {
-  const { name, email, date, time, guests } = req.body;
-  const booking = { name, email, date, time, guests };
+app.post("/book", async (req, res) => {
+  const { name, phone, email, date, time } = req.body;
 
-  bookings.push(booking);
+  try {
+    const response = await fetch("PASTE_YOUR_WEB_APP_URL_HERE", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ name, phone, email, date, time })
+    });
 
-  console.log("DATA RECEIVED:", booking);
+    const data = await response.json();
 
-  res.json({ success: true });
+    console.log("Sent to Google Sheets:", data);
+
+    res.json({ success: true });
+
+  } catch (error) {
+    console.error("Error sending to Google Sheets:", error);
+    res.json({ success: false });
+  }
 });
 
 // Cancel
