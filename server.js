@@ -5,7 +5,7 @@ app.use(express.json());
 
 let bookings = [];
 
-// Book API
+// ================= BOOK =================
 app.post("/book", async (req, res) => {
   const { name, phone, email, date, time } = req.body;
 
@@ -32,7 +32,7 @@ app.post("/book", async (req, res) => {
   }
 });
 
-// Cancel API
+// ================= CANCEL =================
 app.post("/cancel", (req, res) => {
   const { email } = req.body;
 
@@ -41,7 +41,7 @@ app.post("/cancel", (req, res) => {
   res.json({ success: true });
 });
 
-// Check user API
+// ================= CHECK USER =================
 app.post("/check-user", (req, res) => {
   const { email } = req.body;
 
@@ -54,12 +54,14 @@ app.post("/check-user", (req, res) => {
   }
 });
 
-// Test route
+// ================= TEST ROUTE =================
 app.get("/", (req, res) => {
   res.send("Backend is running");
 });
 
-// Start server
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+// ================= SERVER =================
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Server running on port " + PORT);
 });
