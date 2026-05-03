@@ -3,9 +3,7 @@ const app = express();
 
 app.use(express.json());
 
-let bookings = [];
-
-// ================= BOOK =================
+// BOOK API
 app.post("/book", async (req, res) => {
   const { name, phone, email, date, time } = req.body;
 
@@ -22,44 +20,29 @@ app.post("/book", async (req, res) => {
 
     console.log("Sent to Google Sheets:", data);
 
-    bookings.push({ name, phone, email, date, time });
-
     res.json({ success: true });
-
   } catch (error) {
-    console.error("Error:", error);
+    console.error(error);
     res.json({ success: false });
   }
 });
 
-// ================= CANCEL =================
+// CANCEL API
 app.post("/cancel", (req, res) => {
-  const { email } = req.body;
-
-  bookings = bookings.filter(b => b.email !== email);
-
   res.json({ success: true });
 });
 
-// ================= CHECK USER =================
+// CHECK USER API
 app.post("/check-user", (req, res) => {
-  const { email } = req.body;
-
-  const user = bookings.find(b => b.email === email);
-
-  if (user) {
-    res.json({ exists: true, name: user.name });
-  } else {
-    res.json({ exists: false });
-  }
+  res.json({ exists: false });
 });
 
-// ================= TEST ROUTE =================
+// TEST ROUTE (VERY IMPORTANT)
 app.get("/", (req, res) => {
   res.send("Backend is running");
 });
 
-// ================= SERVER =================
+// PORT
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
