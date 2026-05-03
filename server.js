@@ -5,19 +5,12 @@ app.use(express.json());
 
 let bookings = [];
 
-// Book
+// Book API
 app.post("/book", async (req, res) => {
   const { name, phone, email, date, time } = req.body;
 
   try {
-    try {
-  const response = await fetch("https://script.google.com/macros/s/AKfycbx1tJcBSiGVAbOpe9qr2KK-UELsBzb8S9hsr2pTahUWBnJgVKsgkA8dFp0lQJQUAJ8u/exec", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ name, phone, email, date, time })
-  });
+    const response = await fetch("https://script.google.com/macros/s/AKfycbx1tJcBSiGVAbOpe9qr2KK-UELsBzb8S9hsr2pTahUWBnJgVKsgkA8dFp0lQJQUAJ8u/exec", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -29,15 +22,17 @@ app.post("/book", async (req, res) => {
 
     console.log("Sent to Google Sheets:", data);
 
+    bookings.push({ name, phone, email, date, time });
+
     res.json({ success: true });
 
   } catch (error) {
-    console.error("Error sending to Google Sheets:", error);
+    console.error("Error:", error);
     res.json({ success: false });
   }
 });
 
-// Cancel
+// Cancel API
 app.post("/cancel", (req, res) => {
   const { email } = req.body;
 
@@ -46,7 +41,7 @@ app.post("/cancel", (req, res) => {
   res.json({ success: true });
 });
 
-// Check user
+// Check user API
 app.post("/check-user", (req, res) => {
   const { email } = req.body;
 
@@ -64,5 +59,7 @@ app.get("/", (req, res) => {
   res.send("Backend is running");
 });
 
-// ✅ ONLY ONE listen
-app.listen(3000, () => console.log("Server running"));
+// Start server
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
