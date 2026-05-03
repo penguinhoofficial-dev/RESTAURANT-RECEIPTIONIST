@@ -10,7 +10,14 @@ app.post("/book", async (req, res) => {
   const { name, phone, email, date, time } = req.body;
 
   try {
-    const response = await fetch("PASTE_YOUR_WEB_APP_URL_HERE", {
+    try {
+  const response = await fetch("https://script.google.com/macros/s/AKfycbx1tJcBSiGVAbOpe9qr2KK-UELsBzb8S9hsr2pTahUWBnJgVKsgkA8dFp0lQJQUAJ8u/exec", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ name, phone, email, date, time })
+  });
       method: "POST",
       headers: {
         "Content-Type": "application/json"
